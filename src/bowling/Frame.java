@@ -1,0 +1,86 @@
+package bowling;
+
+public class Frame{
+	private int score;
+	private int throw1;
+	private int throw2;
+	private FrameStatus status;//-1 ==empty, 0==1st complete needs 2nd
+	//1 == full
+	//2 == strike
+	//3 == spare
+	public Frame() {
+		score=0;
+		throw1=0;
+		throw2=0;
+		status=FrameStatus.Empty;
+	}
+	public Frame(int pins) {
+		score=pins;
+		throw1=pins;
+		throw2=0;
+		if(pins>10) status = FrameStatus.Fail;
+		if(pins==10) {
+			status = FrameStatus.Strike;
+		} else {
+			status=FrameStatus.FirstCompleted;
+		}
+	}
+	//return-1 if fail
+	//return 0 if first throw complete and needs 2nd
+	//return 1 if complete frame
+	//return 2 if strike
+	//return 3 if spare
+	public int getScore() {
+		return score;
+	}
+	public int setScore(Frame frame1){//for spares
+		this.score+=frame1.getThrow1();
+	}
+	public int setScore(Frame frame1, Frame frame2){//for strikes
+		this.score+=frame1.getThrow1();
+		if(frame1.getStatus()==FrameStatus.Strike){ //if its a strike
+			this.score+=frame2.getThrow1();
+		}else{
+			this.score+=frame1.getThrow2();
+		}
+	}
+	public int getThrow1(){
+		return this.throw1;
+	}
+	public int getThrow2(){
+		return this.throw2;
+	}
+	public FrameStatus setThrow2(int pins) {
+		this.throw2=pins;
+		if(throw2+throw1>10) return status = FrameStatus.Fail;
+		if(throw2+throw1==10) return status= FrameStatus.Spare;
+		return status = FrameStatus.Full;
+	}
+	public FrameStatus getStatus(){
+		return this.status;
+	}
+	public void setStatus(FrameStatus status){
+		this.status = status;
+	}
+	/*
+	public int addThrow(int val) {
+		if(throw1==-1) {
+			throw1=val;
+			score=throw1;
+			if(val==10) {
+				status=1;
+				return 3;		
+			}
+		}else if(throw2==-1) {
+			throw2=val;
+			score=throw1+throw2;
+			if(throw1+throw2==10) {
+				return 3;
+			}
+		}else {
+			return -1;
+		}
+		return 0;
+	}
+	*/
+}
