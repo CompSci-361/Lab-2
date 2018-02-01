@@ -13,6 +13,7 @@ public class ScoringSheet {
 		
 	}
 	public int getFrameScore(int frameNum) {
+		if(frameNum>9) return -1;
 		if(frames[frameNum-1]==null) {
 			//System.out.println("Empty Frame");
 			return 0;
