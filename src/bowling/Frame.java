@@ -12,7 +12,7 @@ public class Frame {
 	}
 	
 	public int getScore() {
-		return firstThrow + secondThrow;
+		return (firstThrow == -1 ? 0 : firstThrow) + (secondThrow == -1 ? 0 : secondThrow);
 	}
 	
 	public int getThrowOne() {
