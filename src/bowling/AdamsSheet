@@ -1,0 +1,67 @@
+package lab1Bowling;
+
+
+public class ScoringSheet {
+	
+	private Frame[] frames = new Frame[10];
+	private int totalScore;
+	private int curFrame;
+	
+	public ScoringSheet() {
+		totalScore=0;
+		curFrame=0;
+		
+	}
+	public int getFrameScore(int frameNum) {
+		if(frames[frameNum-1]==null) {
+			//System.out.println("Empty Frame");
+			return 0;
+		}
+		if(frames[frameNum]==null) {
+			//System.out.println("Non After");
+			//System.out.print(frames[frameNum-1]);
+			return frames[frameNum-1].getScore();
+		}
+		if(frames[frameNum-1].getStatus()==FrameStatus.Strike) {
+			//System.out.println("This frame is a strike");
+			frames[frameNum-1].setScore(frames[frameNum], frames[frameNum+1]);
+		}else if(frames[frameNum-1].getStatus()==FrameStatus.Spare) {
+			//System.out.println("This Frame is a spare");
+			frames[frameNum-1].setScore(frames[frameNum]);
+		}
+		//System.out.println("Frame Score is :"+frames[frameNum-1].getScore());
+		return frames[frameNum-1].getScore();
+	}
+	public int getCurFrame() {
+		return curFrame+1;
+	}
+	//using non array indexfor getFramescore due to testing
+	public int getTotalScore() {
+		totalScore=0;
+		for(int i = 1;i<11;++i) {
+			//System.out.print("  Total: "+totalScore);
+			totalScore+=getFrameScore(i);
+		}
+		return totalScore;
+	}
+	public FrameStatus throwBall(int pins) {
+		if(pins>10) {
+			return FrameStatus.Fail;
+		}
+		if(frames[curFrame]==null) {
+			frames[curFrame]=new Frame(pins);
+			if(pins==10) {
+				++curFrame;
+				return frames[curFrame-1].getStatus();
+			}
+		} else {
+			//will fill up the frame or set status to an error
+			frames[curFrame].setThrow2(pins);
+			++curFrame;
+			return frames[curFrame-1].getStatus();
+		}
+		return frames[curFrame].getStatus();
+	}
+}
+
+
