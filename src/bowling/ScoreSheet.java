@@ -34,7 +34,7 @@ public class ScoreSheet {
 	}
 	public void throwBall(int pins) throws Exception {
 		if (curIndex > 9) throw new Exception("Out of bounds.");
-		if (pins > 11 || pins < 0) throw new Exception("Pin number is out of bounds.");
+		if (pins > 10 || pins < 0) throw new Exception("Pin number is out of bounds.");
 		
 		Frame currentFrame = getFrame(getCurrentIndex());
 		if (currentFrame == null) { //first throw, current frame = null
